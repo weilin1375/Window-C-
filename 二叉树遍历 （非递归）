@@ -1,0 +1,77 @@
+
+1：先序
+void preorderR(Node* root)//先序遍历打印树的各个节点  
+    {  
+        Node* cur = root;  
+        stack<Node*> s;  
+        while (!s.empty() || cur)//只要当前节点和栈不同时为空，就说明树没遍历完  
+        {  
+            while(cur)//先序遍历，遇到树根节点直接访问数据并将其压栈  
+            {  
+                cout<<cur->_value<<" ";  
+                s.push(cur);  
+                cur = cur->_lchild;  
+            }  
+  
+            Node* top = s.top();//取出栈顶元素，到此说明此节点以及其左子树已经访问过了  
+            s.pop();  
+  
+            cur = top->_rchild;//以子问题的方式去访问右子树  
+        }  
+        cout<<endl;  
+    }  
+2：中序
+void inorderR(Node* root)//中序遍历打印树的各个节点  
+{  
+    Node* cur = root;  
+    stack<Node*> s;  
+    while(!s.empty() || cur)//只要当前节点和栈不同时为空，就说明树没遍历完  
+    {  
+        while(cur)//中序遍历，遇到树根节点直接将其压栈  
+        {  
+            s.push(cur);  
+            cur = cur->_lchild;  
+        }  
+  
+        Node* top = s.top();//取出栈顶元素，到此说明此节点的左子树已经访问过了  
+        cout<<top->_value<<" ";//访问栈顶元素（即根节点）  
+        s.pop();  
+  
+        cur = top->_rchild;//以子问题的方式去访问右子树  
+    }  
+    cout<<endl;  
+}  
+
+
+
+3：后序
+void postorderR(Node* root)//后序遍历打印树的各个节点  
+    {  
+        Node* cur = root;  
+        Node* prev = NULL;//上一个访问过的数据  
+        stack<Node*> s;  
+        while(!s.empty() || cur)//只要当前节点和栈不同时为空，就说明树没遍历完  
+        {  
+            //后序遍历，遇到树根节点直接将其压栈  
+            while(cur)  
+            {  
+                s.push(cur);  
+                cur = cur->_lchild;  
+            }  
+  
+            Node* top = s.top();//取栈顶元素，但不一定能访问  
+              
+            //当节点右子树为空或已经访问过时对其直接进行访问  
+            if (top->_rchild==NULL || top->_rchild==prev)  
+            {  
+                cout<<top->_value<<" ";  
+                prev = top;//将prev更新为已经访问的节点  
+                s.pop();  
+            }  
+            else//以子问题的方式去访问右子树  
+            {  
+                cur = top->_rchild;  
+            }  
+       }  
+        cout<<endl;  
+    }  
