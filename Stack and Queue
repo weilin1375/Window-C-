@@ -1,0 +1,184 @@
+#include<iostream>
+using namespace std;
+template<class T>
+class My_stack
+{
+private:
+	int size;
+	int capacity;
+	T* arr;
+public:
+	My_stack(int m)
+		:size(0)
+		,capacity(m)
+		,arr(new T[m])
+	{}
+	void push(const T& x)
+	{
+		CheckCapacity();
+		arr[size++]=x;
+		return;
+	}
+	void pop()
+	{
+		if(size==0)
+			return false;
+		delete arr[--size];
+		return;
+	}
+	T& Top()
+	{
+		return arr[--size];
+	}
+	void show()
+	{
+		for(int i=0;i<size;i++)
+			cout<<arr[i];
+	}
+	void CheckCapacity()
+	{
+		if(size==capacity)
+		{
+			T* temp=new T[size*2+3];
+		
+		for(int i=0;i<size;i++)
+		{
+			temp[i]=arr[i];
+		}
+		delete[] arr;
+		arr=temp;
+		capacity=2*size+3;
+		}
+	}
+};
+		
+	
+	int main()
+	{
+		My_stack<int> v(10);
+		v.push(1);
+		v.push(2);
+		v.push(3);
+		v.push(4);
+		v.push(5);
+		v.show();
+		
+	}
+
+	//链式栈
+
+/*#include<iostream>
+using namespace std;
+template<class T>
+struct StackNode
+{
+	T* _data;
+	StackNode* next;
+}
+template<class T>
+class My_stack
+{
+private:
+	StackNode<T>* node;
+public:
+	My_stack()
+	{
+		node=NULL;
+	}
+	void push(const T& data)
+	{
+		StackNode* temp=new StackNode;
+		temp._data=data;
+		temp->next=node;
+		node=temp;
+	}
+	void pop()
+	{
+		if(node==NULL)
+			return ;
+			*/
+
+//队列
+
+#include<iostream>
+#include<assert.h>
+using namespace std;
+template <class T>
+struct QueueNode
+{
+	T _data;
+	QueueNode<T>* next;
+};
+template<class T>
+class Queue
+{
+	typedef QueueNode<T>  Node;
+private:
+	Node* head;
+	Node* tail;
+public:
+	Queue()
+	{
+		head=tail=NULL;
+	}
+	void push(const T& data)
+	{
+		if(head==NULL)
+		{
+			head=tail=new Node;
+		tail->_data=data;
+		tail->next=NULL;
+		}
+		else
+		{
+			tail->next=new Node;
+			tail->next->_data=data;
+			tail->next->next=NULL;
+			tail=tail->next;
+		}	
+	}
+	void pop()
+	{
+		if(head==tail)
+		{
+			delete head;
+			head=tail=NULL;
+		}
+		Node*temp=head;
+		head=head->next;
+		delete temp;
+	}
+	T& front()
+	{
+		assert(head);
+		return head->_data;
+	}
+	bool Empty()
+	{
+		return head==NULL;
+	}
+ 
+ int size()
+ {
+	 if(head==NULL)
+		 return 0;
+	 Node* temp=head;
+    int count=0;
+	while(temp!=NULL)
+	{
+		temp++;
+		count++;
+	}
+	return count;
+ }
+ ~Queue()
+ {
+	 Node* temp=head;
+	 while(temp!=NULL)
+	 {
+		 Node*cur=temp;
+		 delete cur;
+		 temp++;
+	 }
+ }
+};
